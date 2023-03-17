@@ -82,7 +82,7 @@ export default function Register(){
 
             {/* bottom */}
             <p className='text-center text-gray-400 '>
-                Have an account? <Link href={'/login'}><a className='text-blue-700'>Sign In</a></Link>
+                Have an account? <Link href={'/login'} className='text-blue-700'>Sign In</Link>
             </p>
         </section>
         </Layout>
