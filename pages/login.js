@@ -24,12 +24,12 @@ export default function Login(){
 
     // Google Handler function
     async function handleGoogleSignin(){
-        signIn('google', { callbackUrl : process.env.NEXTAUTH_URL})
+        signIn('google', { callbackUrl : process.env.VERCEL_URL})
     }
 
     // Github Login 
     async function handleGithubSignin(){
-        signIn('github', { callbackUrl : process.env.NEXTAUTH_URL})
+        signIn('github', { callbackUrl : process.env.VERCEL_URL})
     }
 
     return (
