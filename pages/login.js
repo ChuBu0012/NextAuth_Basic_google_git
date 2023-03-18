@@ -25,7 +25,7 @@ export default function Login() {
     async function onSubmit(values) {
         console.log(values)
     }
-
+    console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL);
     // Google Handler function
     async function handleGoogleSignin() {
         signIn('google', { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL })
