@@ -23,9 +23,8 @@ export async function getServerSideProps({ req }) {
 }
 
 export default function Home() {
-  console.log(process.env.NEXT_PUBLIC_GOOGLE_SECRET);
   const { data: session } = useSession()
-
+  console.log(session);
   function handleSignOut() {
     signOut()
   }
