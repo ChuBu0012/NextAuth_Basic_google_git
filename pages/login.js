@@ -5,12 +5,13 @@ import styles from '../styles/Form.module.css';
 import Image from 'next/image'
 import { HiAtSymbol, HiFingerPrint } from "react-icons/hi";
 import { useState } from 'react';
-import { signIn } from "next-auth/react"
+import { getSession, signIn } from "next-auth/react"
 import { useFormik } from 'formik';
 import login_validate from '../lib/validate';
+import { useRouter } from 'next/router';
 
 export default function Login() {
-
+    const router = useRouter()
     const [show, setShow] = useState(false)
     // formik hook
     const formik = useFormik({
@@ -22,10 +23,16 @@ export default function Login() {
         onSubmit
     })
 
+    // credentials Login
     async function onSubmit(values) {
-        console.log(values)
+        const status = await signIn('credentials',
+            { redirect: false, username: '', email: values.email, password: values.password, callbackUrl: "/" })
+        if (status.error || status.status === 401) {
+            console.log(status.error);
+        }
+
     }
-    console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL);
+
     // Google Handler function
     async function handleGoogleSignin() {
         signIn('google', { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL })
@@ -51,7 +58,7 @@ export default function Login() {
 
                 {/* form */}
                 <form className='flex flex-col gap-5' onSubmit={formik.handleSubmit}>
-                    <div className={styles.input_group}>
+                    <div className={`${styles.input_group} ${formik.errors.email && formik.touched.email ? 'border-rose-600' : ''}`}>
                         <input
                             type="email"
                             name='email'
@@ -64,9 +71,9 @@ export default function Login() {
                         </span>
 
                     </div>
-                    {formik.errors.email && formik.touched.email ? <span className='text-rose-500'>{formik.errors.email}</span> : <></>}
+                    {/* {formik.errors.email && formik.touched.email ? <span className='text-rose-500'>{formik.errors.email}</span> : <></>} */}
 
-                    <div className={styles.input_group}>
+                    <div className={`${styles.input_group} ${formik.errors.password && formik.touched.password ? 'border-rose-600' : ''}`}>
                         <input
                             type={`${show ? "text" : "password"}`}
                             name='password'
@@ -80,7 +87,7 @@ export default function Login() {
 
                     </div>
 
-                    {formik.errors.password && formik.touched.password ? <span className='text-rose-500'>{formik.errors.password}</span> : <></>}
+                    {/* {formik.errors.password && formik.touched.password ? <span className='text-rose-500'>{formik.errors.password}</span> : <></>} */}
                     {/* login buttons */}
                     <div className="input-button">
                         <button type='submit' className={styles.button}>
