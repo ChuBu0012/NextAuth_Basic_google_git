@@ -28,8 +28,13 @@ export default function Login() {
         const status = await signIn('credentials',
             { redirect: false, username: '', email: values.email, password: values.password, callbackUrl: "/" })
         if (status.error || status.status === 401) {
-            console.log(status.error);
+            alert(status.error)
+            return
         }
+
+        router.push(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
+
+
 
     }
 
